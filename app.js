@@ -1,0 +1,17 @@
+let express = require('express');
+let app = express();
+let eventHandlerRoute = require('./routes/eventHandler');
+let server = app.listen(process.env.PORT || 8080, function() {
+    let port = server.address().port;
+});
+
+app.use('/', eventHandlerRoute);
+app.use('/api/', eventHandlerRoute);
+
+app.use((req, res, next) => {
+    let err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+module.exports = app;
